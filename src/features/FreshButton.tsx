@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, JSX } from "react";
 import "../styles/FreshButton.css"; // Import your CSS styles
 // Define prop types for the component
 interface BubbleButtonProps {

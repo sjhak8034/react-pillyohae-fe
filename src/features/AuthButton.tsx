@@ -1,5 +1,5 @@
 // components/AuthButton.tsx
-import { useState, FC } from "react";
+import { FC } from "react";
 import "../styles/NavButton.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";

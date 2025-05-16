@@ -1,18 +1,15 @@
-import React, { FC } from "react";
-import { Navbar, Container, NavbarProps } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { FC } from "react";
+import { Navbar, Container } from "react-bootstrap";
 import SearchBar from "../components/common/SearchBar";
 import LoginButton from "./LoginButton";
 import CartButton from "./CartButton";
-import { useSelector, UseSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { UserProfileResponseDto } from "../api/users";
 import LogoutButton from "./LogoutButton";
 import { MyPageButton } from "./MyPageButton";
 
 const NavBar: FC = () => {
-  const navigate = useNavigate();
-
   const user: UserProfileResponseDto | null = useSelector(
     (state: RootState) => state.user.user
   );

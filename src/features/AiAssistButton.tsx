@@ -1,11 +1,10 @@
 import "../styles/AiAssistButton.css";
-import { useState, FC } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRobot } from "@fortawesome/free-solid-svg-icons"; // Import FontAwesome icons
 const AiAssistButton: FC = () => {
   const navigate = useNavigate();
-  const [isHovering, setIsHovering] = useState<boolean>(false);
 
   return (
     <button

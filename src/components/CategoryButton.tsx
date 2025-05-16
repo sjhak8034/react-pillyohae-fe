@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import CategoryBarCss from "../styles/CategoryBar.css?inline"; // Import your CSS styles
 import { useNavigate, useLocation } from "react-router-dom"; // Import useNavigate from react-router-dom
 import { FC } from "react";

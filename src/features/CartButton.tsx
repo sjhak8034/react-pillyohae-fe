@@ -1,5 +1,5 @@
 import { useState, FC } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/NavButton.css"; // Import your CSS styles
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons"; // Import FontAwesome icons
