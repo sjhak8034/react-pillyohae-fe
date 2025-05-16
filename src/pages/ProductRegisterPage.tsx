@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Camera, X } from "lucide-react";
 import "tailwindcss";
-import store, { RootState } from "../store/store";
+import { RootState } from "../store/store";
 import { useSelector } from "react-redux";
 import {
   registerProduct,
@@ -10,7 +10,6 @@ import {
   uploadProductImages,
   craeteAiImage,
 } from "../api/products";
-import { href } from "react-router-dom";
 
 type ImageFile = {
   file: File;
@@ -66,8 +65,7 @@ const ProductRegisterPage = () => {
     );
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     // 상품 등록 로직 (예: API 호출)
     const productCreateResponse: ProductCreateResponse = await registerProduct(
       productInfo

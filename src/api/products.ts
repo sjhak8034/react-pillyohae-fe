@@ -1,4 +1,3 @@
-import axios from "axios";
 import api from "./auth";
 const baseURL = import.meta.env.VITE_API_URL;
 export interface Product {

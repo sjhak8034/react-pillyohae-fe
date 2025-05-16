@@ -1,20 +1,38 @@
-import { useState, useEffect, FC, ReactNode } from 'react';
-import Card from 'react-bootstrap/Card';
-import CardGroup from 'react-bootstrap/CardGroup';
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import Nav from 'react-bootstrap/Nav';
-import '../../App.css';
+import { useState, useEffect, FC, ReactNode } from "react";
+import Card from "react-bootstrap/Card";
+import CardGroup from "react-bootstrap/CardGroup";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import Nav from "react-bootstrap/Nav";
+import "../../App.css";
 
 const ItemDetail: FC = () => {
   const [items] = useState([
-    { id: 1, name: 'Item 1', description: 'Description 1', image: '/images/shoes1.jpg', updatedAt: "2025-04-24T13:45:30Z" },
-    { id: 2, name: 'Item 2', description: 'Description 2', image: '/images/shoes2.jpg', updatedAt: "2025-03-22T13:45:30Z" },
-    { id: 3, name: 'Item 3', description: 'Description 3', image: '/images/shoes3.jpg', updatedAt: "2024-04-21T13:45:30Z" },
+    {
+      id: 1,
+      name: "Item 1",
+      description: "Description 1",
+      image: "/images/shoes1.jpg",
+      updatedAt: "2025-04-24T13:45:30Z",
+    },
+    {
+      id: 2,
+      name: "Item 2",
+      description: "Description 2",
+      image: "/images/shoes2.jpg",
+      updatedAt: "2025-03-22T13:45:30Z",
+    },
+    {
+      id: 3,
+      name: "Item 3",
+      description: "Description 3",
+      image: "/images/shoes3.jpg",
+      updatedAt: "2024-04-21T13:45:30Z",
+    },
   ]);
 
-  const { id } = useParams<{ id: string }>();
-  const item = items.find((item) => item.id === Number(id));
+  const id = Number(useParams<{ id: string }>());
+  const item = items.find((item) => item.id === id);
 
   if (!item) return <div>아이템을 찾을 수 없습니다.</div>;
 
@@ -49,14 +67,20 @@ const DetailCard: FC<{
   return (
     <CardGroup>
       <Card>
-        <Card.Img variant="top" src={item.image} style={{ width: '18rem', margin: '0 auto' }} />
+        <Card.Img
+          variant="top"
+          src={item.image}
+          style={{ width: "18rem", margin: "0 auto" }}
+        />
         <Card.Body>
           <Card.Title>{item.name}</Card.Title>
           <Card.Text>{item.description}</Card.Text>
           <BlueBtn>구매하기</BlueBtn>
         </Card.Body>
         <Card.Footer>
-          <small className="text-muted">최근 업데이트 {calTimeDiff(item.updatedAt)}</small>
+          <small className="text-muted">
+            최근 업데이트 {calTimeDiff(item.updatedAt)}
+          </small>
         </Card.Footer>
         <Tabs />
       </Card>
@@ -70,16 +94,24 @@ const Tabs: FC = () => {
     <>
       <Nav fill variant="tabs" defaultActiveKey="link-1">
         <Nav.Item>
-          <Nav.Link eventKey="link-1" onClick={() => setTab(1)}>Active</Nav.Link>
+          <Nav.Link eventKey="link-1" onClick={() => setTab(1)}>
+            Active
+          </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="link-2" onClick={() => setTab(2)}>Loooonger NavLink</Nav.Link>
+          <Nav.Link eventKey="link-2" onClick={() => setTab(2)}>
+            Loooonger NavLink
+          </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="link-3" onClick={() => setTab(3)}>Link</Nav.Link>
+          <Nav.Link eventKey="link-3" onClick={() => setTab(3)}>
+            Link
+          </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="disabled" disabled>Disabled</Nav.Link>
+          <Nav.Link eventKey="disabled" disabled>
+            Disabled
+          </Nav.Link>
         </Nav.Item>
       </Nav>
       <TabContent tab={tab} />
@@ -94,18 +126,21 @@ const TabContent: FC<{ tab: number }> = ({ tab }) => {
   return null;
 };
 
-const Animation: FC<{ detect: number; children: ReactNode }> = ({ detect, children }) => {
-  const [fade, setFade] = useState('');
+const Animation: FC<{ detect: number; children: ReactNode }> = ({
+  detect,
+  children,
+}) => {
+  const [fade, setFade] = useState("");
 
   useEffect(() => {
-    const timeout = setTimeout(() => setFade('animationEnd'), 100);
+    const timeout = setTimeout(() => setFade("animationEnd"), 100);
     return () => {
       clearTimeout(timeout);
-      setFade('');
+      setFade("");
     };
   }, [detect]);
 
-  return <div className={'animationStart ' + fade}>{children}</div>;
+  return <div className={"animationStart " + fade}>{children}</div>;
 };
 
 function calTimeDiff(time: string): string {

@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import "./App.css";
 
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import ItemDetail from "./components/common/ItemDetail";
-import { CartComponent } from "./components/common/Cart";
 import { FC } from "react";
 import FreshButton from "./features/FreshButton";
 import "./styles/GlobalStyles.css";
@@ -69,7 +68,7 @@ const App: FC = () => {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/detail/:id" element={<ItemDetail />} />
-        <Route path="/cart" element={<CartComponent />} />
+        <Route path="/cart" element={<div>cart</div>} />
         <Route path="*" element={<div>404 not found 에러</div>} />
         <Route path="/fresh" element={<FreshButton />} />
         <Route path="/login" element={<LoginPage />} />

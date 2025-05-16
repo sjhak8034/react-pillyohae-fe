@@ -1,14 +1,10 @@
-import React, { FC } from "react";
-import { useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { FC } from "react";
 import "../styles/LoginPage.css";
 import "../styles/Input.css";
 import { Link } from "react-router-dom";
 import { LoginForm } from "../components/common/LoginForm";
 
 const LoginPage: FC = () => {
-  const navigate = useNavigate();
-
   return (
     <div
       className="login-page-container"

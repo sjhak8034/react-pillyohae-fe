@@ -4,11 +4,17 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
 } from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+
+interface TokenResponse {
+  accessToken: string;
+  refreshToken: string;
+}
 
 // login api
-export const login = async (email: string, password: string): Promise<any> => {
+export const login = async (
+  email: string,
+  password: string
+): Promise<TokenResponse> => {
   try {
     // 로그인 API 호출
     const response: AxiosResponse = await api.post("/users/login", {
@@ -21,7 +27,7 @@ export const login = async (email: string, password: string): Promise<any> => {
 
     if (token) {
       // JWT 토큰의 payload를 분리 (디코딩)
-      const [header, payload, signature] = token.split(".");
+      const payload = token.split(".")[1];
 
       // Payload 디코딩 예시 (base64 디코딩 필요)
       const decodedPayload = JSON.parse(atob(payload));
@@ -40,7 +46,7 @@ export const login = async (email: string, password: string): Promise<any> => {
     }
 
     return response.data;
-  } catch (error: any) {
+  } catch (error: unknown) {
     // 에러 처리
     if (axios.isAxiosError(error)) {
       // 서버가 응답을 반환한 경우 (Validation 오류 포함)
@@ -62,8 +68,6 @@ export const logout = async (
   navigate: (path: string) => void
 ): Promise<void> => {
   try {
-    const accessToken = localStorage.getItem("accessToken");
-
     await api.post("/users/logout");
 
     localStorage.removeItem("accessToken");
@@ -111,16 +115,16 @@ api.interceptors.request.use(
 
     return config;
   },
-  (error: any) => Promise.reject(error)
+  (error: unknown) => Promise.reject(error)
 );
 
 let isRefreshing = false;
 let failedQueue: {
   resolve: (value?: unknown) => void;
-  reject: (reason?: any) => void;
+  reject: (reason?: unknown) => void;
 }[] = [];
 
-const processQueue = (error: any, token: string | null = null): void => {
+const processQueue = (error: unknown, token: string | null = null): void => {
   failedQueue.forEach(({ resolve, reject }) => {
     if (token) {
       resolve(token);
@@ -134,7 +138,7 @@ const processQueue = (error: any, token: string | null = null): void => {
 // 응답 인터셉터
 api.interceptors.response.use(
   (response: AxiosResponse): AxiosResponse => response,
-  async (error: AxiosError): Promise<any> => {
+  async (error: AxiosError): Promise<AxiosResponse | void> => {
     const originalRequest = error.config as AxiosRequestConfig & {
       _retry?: boolean;
     };
@@ -176,17 +180,24 @@ api.interceptors.response.use(
         }
 
         return api(originalRequest);
-      } catch (refreshError: any) {
-        console.error(
-          "Failed to refresh token:",
-          refreshError.response?.data || refreshError.message
-        );
-        processQueue(refreshError, null);
+      } catch (refreshError: unknown) {
         isRefreshing = false;
 
-        if (refreshError.response?.status === 401) {
-          delete api.defaults.headers.common["Authorization"];
-          window.location.href = "/login"; // Vue Router가 아닌 일반 브라우저 이동으로 처리
+        if (axios.isAxiosError(refreshError)) {
+          console.error(
+            "Failed to refresh token:",
+            refreshError.response?.data || refreshError.message
+          );
+
+          processQueue(refreshError, null);
+
+          if (refreshError.response?.status === 401) {
+            delete api.defaults.headers.common["Authorization"];
+            window.location.href = "/login";
+          }
+        } else {
+          console.error("An unexpected error occurred:", refreshError);
+          processQueue(refreshError, null);
         }
 
         return Promise.reject(refreshError);

@@ -1,14 +1,7 @@
-import React, { useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  SurveyForm,
-  Lifestyle,
-  postSurvey,
-  createAiRecommend,
-} from "../api/survey";
+import React, { useState } from "react";
+import { SurveyForm, postSurvey, createAiRecommend } from "../api/survey";
 
 const AiSurveyPage: React.FC = () => {
-  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const totalSteps = 4;
 

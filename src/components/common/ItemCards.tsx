@@ -4,13 +4,10 @@ import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
 import { useNavigate } from "react-router-dom";
 import { FC, useEffect } from "react";
-import { getProducts, Product, ProductResponse } from "../../api/products.ts";
+import { getProducts } from "../../api/products.ts";
 
 export const ItemCards: FC = () => {
   const [items, setItems] = useState<Item[]>([]);
-  getProducts().then((res) => {
-    console.log("API 응답 확인:", res); // 여기에서 content가 있는지 확인
-  });
   useEffect(() => {
     getProducts().then((res) => {
       const mapped = res.content.map(

@@ -1,30 +1,28 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { login } from "../../api/auth"; // 로그인 API 호출 함수
+import axios from "axios";
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setErrorMessage("");
 
     try {
-      const response = await login(email, password);
-    } catch (error: any) {
+      await login(email, password);
+    } catch (error: unknown) {
       console.error("Login error:", error);
-      if (error.message) {
+      if (axios.isAxiosError(error)) {
+        setErrorMessage(error.response?.data.message || "Login failed.");
+      } else if (error instanceof Error) {
         setErrorMessage(error.message);
       } else {
         setErrorMessage("An unexpected error occurred.");
       }
-    } finally {
-      setLoading(false);
+      alert(errorMessage);
     }
   };
   return (

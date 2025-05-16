@@ -1,11 +1,9 @@
-import React from 'react'
-
 function LoadingScreen() {
   return (
-    <div style={{ textAlign: 'center', marginTop: '20%' }}>
+    <div style={{ textAlign: "center", marginTop: "20%" }}>
       <h1>Loading...</h1>
     </div>
-  )
+  );
 }
 
-export default LoadingScreen
+export default LoadingScreen;
